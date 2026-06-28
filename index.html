@@ -1085,20 +1085,23 @@ let puzzleCellH  = 0;
 // ═══════════════════════════════════════════════════════════
 //  GÉOMÉTRIE
 // ═══════════════════════════════════════════════════════════
-// Approche : le strip garde height:100% (CSS), le zoom est
-// appliqué via transform:scale(zoom), transform-origin:0 0.
-// panX/panY sont en px écran (espace zoomé).
-// Valeurs négatives de pan = décalage de centrage.
-// ═══════════════════════════════════════════════════════════
 function getVP()    { return document.getElementById('pano-vp'); }
 function getScale() { return (getVP().offsetHeight / PANO_H) * zoom; }
 
 function screenToPano(sx, sy) {
   const sc = getScale();
+  if (zoom === 1) {
+    // En mode original : le strip est positionné via left:centerOffset
+    return { px: (sx - centerOffset + panX) / sc, py: sy / sc };
+  }
+  // En mode zoom : panX/panY couvrent aussi le centrage (valeurs négatives)
   return { px: (sx + panX) / sc, py: (sy + panY) / sc };
 }
 function panoToScreen(px, py) {
   const sc = getScale();
+  if (zoom === 1) {
+    return { sx: px * sc + centerOffset - panX, sy: py * sc };
+  }
   return { sx: px * sc - panX, sy: py * sc - panY };
 }
 
@@ -1110,21 +1113,40 @@ function applyPan(x, y) {
   const vp   = getVP();
   const vpW  = vp.offsetWidth;
   const vpH  = vp.offsetHeight;
-  const sc   = getScale();
-  const imgW = PANO_W * sc;
-  const imgH = PANO_H * sc;
+  const base = vpH / PANO_H;
   const strip = document.getElementById('pano-strip');
 
-  // Valeur négative = centrage (image plus petite que le viewport)
-  panX = imgW <= vpW ? -(vpW - imgW) / 2 : Math.max(0, Math.min(x, imgW - vpW));
-  panY = imgH <= vpH ? -(vpH - imgH) / 2 : Math.max(0, Math.min(y, imgH - vpH));
-  centerOffset = imgW <= vpW ? Math.round(-panX) : 0;
-
-  // Le strip garde height:100% (CSS). Effacer tout style inline résiduel.
+  // Effacer tout style inline résiduel (ancienne implémentation)
   strip.style.height = '';
-  strip.style.left   = '';
   strip.style.top    = '';
-  strip.style.transform = `scale(${zoom}) translate(${-panX / zoom}px,${-panY / zoom}px)`;
+
+  if (zoom === 1) {
+    // ── Comportement original éprouvé (pas de transform scale) ──
+    const sc   = base;
+    const imgW = PANO_W * sc;
+    panY = 0;
+    if (imgW <= vpW) {
+      centerOffset = Math.round((vpW - imgW) / 2);
+      panX = 0;
+      strip.style.left      = `${centerOffset}px`;
+      strip.style.transform = '';
+    } else {
+      centerOffset = 0;
+      panX = Math.max(0, Math.min(x, imgW - vpW));
+      strip.style.left      = '0';
+      strip.style.transform = `translateX(-${panX}px)`;
+    }
+  } else {
+    // ── Mode zoom : scale-transform depuis l'origine ──
+    const sc   = base * zoom;
+    const imgW = PANO_W * sc;
+    const imgH = PANO_H * sc;
+    panX = imgW <= vpW ? -(vpW - imgW) / 2 : Math.max(0, Math.min(x, imgW - vpW));
+    panY = imgH <= vpH ? -(vpH - imgH) / 2 : Math.max(0, Math.min(y, imgH - vpH));
+    centerOffset = imgW <= vpW ? Math.round(-panX) : 0;
+    strip.style.left      = '0';
+    strip.style.transform = `scale(${zoom}) translate(${-panX / zoom}px,${-panY / zoom}px)`;
+  }
   updateMinimap();
 }
 
@@ -1135,10 +1157,8 @@ function setZoom(newZoom, cx, cy) {
   const minZ = Math.max(0.5, vp.offsetWidth / (PANO_W * base));
   newZoom = Math.max(minZ, Math.min(4.0, newZoom));
 
-  // Conserver le point pano sous le curseur
-  const scOld = getScale();
-  const panoX = (cx + panX) / scOld;
-  const panoY = (cy + panY) / scOld;
+  // Point pano sous le curseur avant changement de zoom
+  const { px: panoX, py: panoY } = screenToPano(cx, cy);
 
   zoom = newZoom;
 
@@ -2004,6 +2024,9 @@ function setStepImage(step) {
       requestAnimationFrame(() => resetZoom());
     };
     img.src = step.image;
+  } else {
+    // Même image déjà chargée : reset le pan sans recharger
+    requestAnimationFrame(() => resetZoom());
   }
 }
 
