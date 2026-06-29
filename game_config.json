@@ -6,11 +6,25 @@
   "victoryMessage": "",
   "steps": [
     {
+      "type": "t9",
+      "clue": "Ceinture minérale d'une cité, je suis l'ultime parole de pierre entre la ville et l'assaut. On ne m'érige plus, mais l'on me longe encore. Mon nom ?",
+      "success": "Bien joué ! Direction les remparts d'Houdan !",
+      "hint": "entoure généralement une ville médiévale",
+      "code": "REMPART"
+    },
+    {
+      "type": "code",
+      "clue": "Il faut bien débuter quelque part. \n\nTu as entre tes mains un parchemin. Si tu déchiffres le code tu sauras où chercher le 1er indice.. \n\n\"C'était la maison du Seigneur de Houdan\"",
+      "success": "Bravo ! Effectivement le Donjon servait initialement de Tour maîtresse habitable avant de servir de prison puis de château d'eau ! Restauré récemment il est aujourd'hui visitable. Retourne ce message pour voir le prochain indice !",
+      "hint": "Bâtiment principal d'un Château Fort",
+      "code": "DONJON"
+    },
+    {
       "type": "click",
       "clue": "Le Seigneur, meilleur archer de la région, avait une pièce favorite lorsque le château était assiégé. \n\nTrouve cet emplacement.",
       "success": "Bravo ! Les meurtrières étaient de petites ouvertures permettant de tirer à l'arc tout en étant en sécurité. \nVous trouvez un message dans une niche : \n\n\"Ainsi vous avez découvet ma première cachette. La seconde enigme au dos de parchemin vous emmenera à un autre endroit que j'apprécie à Houdan\".",
       "hint": "Les archers se positionnaient à un endroit bien particulier.",
-      "image": "Image1.png",
+      "image": "images/Image1.png",
       "imageWidth": 1746,
       "imageHeight": 1078,
       "zone": {
@@ -18,24 +32,6 @@
         "y": 385,
         "w": 80,
         "h": 104
-      }
-    },
-    {
-      "type": "code",
-      "clue": "Il faut bien débuter quelque part. \n\nTu as entre tes mains à parchemin. Si tu déchiffres le code tu sauras où chercher le 1er indice.. \n\n\"C'était la maison du Seigneur de Houdan\"",
-      "success": "Bravo ! Effectivement le Donjon servait initialement de Tour maîtresse habitable avant de servir de prison puis de château d'eau ! Restauré récemment il est aujourd'hui visitable. Retourne ce message pour voir le prochain indice !",
-      "hint": "Bâtiment principal d'un Château Fort",
-      "code": "DONJON"
-    },
-    {
-      "type": "t9",
-      "clue": "test",
-      "success": "",
-      "code": "TEST",
-      "item": {
-        "name": "Code Morse",
-        "text": "Test",
-        "image": "morsecode-1.webp"
       }
     },
     {
@@ -50,21 +46,21 @@
       "clue": "Cherche le symbole des seigneurs de Houdan",
       "success": "Bravo ! Les blasons étaient en effet le symbôle des grandes familles nobles. \n\nEn t'approchant de près pour voir le blason du seigneur d'Houdan, tu vois un parchemin glissé entre les pierres de la façade de l'église.\n\nSi tu as l'occasion de venir, un magnifique orgue est visible à l'intérieur de cette magnifique église.\n\nLis vite la prochaine enigme pour te rapprocher de la Plume d'or.",
       "hint": "Celui de Houdan est \"Parti: au 1er mi-parti d'azur à trois fleurs de lis d'or; au 2e d'argent à trois mouchetures d'hermine de sable\"",
-      "image": "Image2.png",
+      "image": "images/Image2.png",
       "imageWidth": 1314,
       "imageHeight": 1084,
       "zone": {
-        "x": 514,
-        "y": 740,
-        "w": 230,
-        "h": 17
+        "x": 545,
+        "y": 247,
+        "w": 210,
+        "h": 182
       }
     },
     {
       "type": "puzzle",
       "clue": "",
       "success": "Bravo ! Le prochain indice est bien à la Mairie d'Houdan",
-      "image": "Image4.png",
+      "image": "images/Image4.png",
       "imageWidth": 1095,
       "imageHeight": 826
     },
@@ -73,7 +69,7 @@
       "clue": "1    1 1    1\n1 1 0 1 1 1\n1 1 1 1 1 1",
       "success": "Bien joué ! en te promenant des les bureaux de la mairie tu découvre un nouvel indice. Tu te rapproche du trésor c'est sûr !",
       "hint": "Il y a beaucoup de fenêtres sur ce bâtiment.",
-      "image": "Image4.png",
+      "image": "images/Image4.png",
       "imageWidth": 1095,
       "imageHeight": 826,
       "zone": {
@@ -84,18 +80,11 @@
       }
     },
     {
-      "type": "t9",
-      "clue": "Ceinture minérale d'une cité, je suis l'ultime parole de pierre entre la ville et l'assaut. On ne m'érige plus, mais l'on me longe encore. Mon nom ?",
-      "success": "Bien joué ! Direction les remparts d'Houdan !",
-      "hint": "entoure généralement une ville médiévale",
-      "code": "REMPARTS"
-    },
-    {
       "type": "click",
-      "clue": "Nous voici aux rermpart et plus précisément devant la Tour Guinant.\n\nCherche l'ami d'Eole",
+      "clue": "Nous voici aux rermparts et plus précisément devant la Tour Guinant.\n\nCherche l'ami d'Eole",
       "success": "Bien jouer !",
       "hint": "Eole est le dieu Grec du vent",
-      "image": "image5.png",
+      "image": "images/image5.png",
       "imageWidth": 726,
       "imageHeight": 907,
       "zone": {
